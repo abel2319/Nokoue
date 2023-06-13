@@ -8,12 +8,15 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
+time = "%Y-%m-%dT%H:%M:%S.%f"
+
+Base = declarative_base()
 
 class BaseModel:
     """Class BaseModel
     """
 
-     id = Column(String(60), primary_key=True)
+    id = Column(String(60), primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
@@ -38,7 +41,7 @@ class BaseModel:
     def __str__(self):
         """string representation the base
         """
-        return ("[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__))
+        return ("[{:s}] ({:s}) {}".format(type(self).__name__, self.id, self.__dict__))
 
     def save(self):
         """updates the public instance attribute updated_at

@@ -7,6 +7,8 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from sqlalchemy_imageattach.entity import Image, image_attachment
 from hashlib import md5
 
 
@@ -32,10 +34,11 @@ class User(BaseModel, Base):
     city = Column(String(128), nullable=False)
     company_code = Column(String(128), nullable=True)
     company_name = Column(String(128), nullable=True)
-    article = relationship("Articles", backref="user")
-    comment = relationship("Comments", backref="user")
-    comment = relationship("Messages", backref="user")
-    comment = relationship("Partipant", backref="user")
+    picture = image_attachment('UserPicture')
+    article = relationship("Articles", backref="user", cascade="all, delete, delete-orphan")
+    comment = relationship("Comments", backref="user", cascade="all, delete, delete-orphan")
+    message = relationship("Messages", backref="user")
+    participant = relationship("Partipant", secondary=participant, viewonly=False)
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
@@ -46,3 +49,9 @@ class User(BaseModel, Base):
         if name == "password":
             value = md5(value.encode()).hexdigest()
         super().__setattr__(name, value)
+
+class UserPicture(Base, Image):
+    """User picture model."""
+    user_id = Column(String(60), ForeignKey('User.id'), primary_key=True)
+    user = relationship('User')
+    __tablename__ = 'user_picture'

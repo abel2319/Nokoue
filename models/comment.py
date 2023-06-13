@@ -5,7 +5,7 @@ import models
 from models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
@@ -22,6 +22,6 @@ class Comment(BaseModel, Base):
         """initializes user"""
         super().__init__(*args, **kwargs)
 
-    def __setattr__(self, name, value):
-        """sets a password with md5 encryption"""
-        super().__setattr__(name, value)
+    #def __setattr__(self, name, value):
+    #    """sets a password with md5 encryption"""
+    #    super().__setattr__(name, value)
