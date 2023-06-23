@@ -36,8 +36,8 @@ class DBStorage:
                                              NOKOUE_MYSQL_PWD,
                                              NOKOUE_MYSQL_HOST,
                                              NOKOUE_MYSQL_DB))
-        if NOKOUE_ENV == "test":
-            Base.metadata.drop_all(self.__engine)
+        #if NOKOUE_ENV == "test":
+        #    Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """query on the current database session"""
